@@ -2,42 +2,42 @@
 <html>
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-  <script defer>
-    // https://github.com/nikolaiwarner/aframe-chromakey-material
-    AFRAME.registerShader('chromakey', {
-      schema: {
-        src: { type: 'map' },
-        color: { default: { x: 0.0, y: 1.0, z: 0.0 }, type: 'vec3', is: 'uniform' },
-        chroma: { type: 'bool', is: 'uniform' },
-        transparent: { default: true, is: 'uniform' }
-      },
+	<script defer>
+		// https://github.com/nikolaiwarner/aframe-chromakey-material
+		AFRAME.registerShader('chromakey', {
+			schema: {
+				src: { type: 'map' },
+				color: { default: { x: 0.0, y: 1.0, z: 0.0 }, type: 'vec3', is: 'uniform' },
+				chroma: { type: 'bool', is: 'uniform' },
+				transparent: { default: true, is: 'uniform' }
+			},
 
-      init: function (data) {
+			init: function (data) {
 
-        var videoTexture = new THREE.VideoTexture(data.src)
-        videoTexture.minFilter = THREE.LinearFilter
-        this.material = new THREE.ShaderMaterial({
-          uniforms: {
-            chroma: {
-              type: 'b',
-              value: data.chroma
-            },
-            color: {
-              type: 'c',
-              value: data.color
-            },
-            myTexture: {
-              type: 't',
-              value: videoTexture
-            }
-          },
-          vertexShader:
-            `
+				var videoTexture = new THREE.VideoTexture(data.src)
+				videoTexture.minFilter = THREE.LinearFilter
+				this.material = new THREE.ShaderMaterial({
+					uniforms: {
+						chroma: {
+							type: 'b',
+							value: data.chroma
+						},
+						color: {
+							type: 'c',
+							value: data.color
+						},
+						myTexture: {
+							type: 't',
+							value: videoTexture
+						}
+					},
+					vertexShader:
+						`
             varying vec2 vUv;
             
             void main(void)
@@ -47,9 +47,9 @@
               gl_Position = projectionMatrix * mvPosition;
             }
           `
-          ,
-          fragmentShader:
-            `
+					,
+					fragmentShader:
+						`
               uniform sampler2D myTexture;
               uniform vec3 color;
               uniform bool chroma;
@@ -69,78 +69,83 @@
                 gl_FragColor = vec4(tColor, a);
               }
             `
-        })
-      },
+				})
+			},
 
-      update: function (data) {
-        this.material.color = data.color
-        this.material.src = data.src
-        this.material.transparent = data.transparent
-      },
+			update: function (data) {
+				this.material.color = data.color
+				this.material.src = data.src
+				this.material.transparent = data.transparent
+			},
 
-    })
+		})
 
-  </script>
+	</script>
 
 
-  <script defer>
-    AFRAME.registerComponent('play-on-click', {
-      init: function () {
-        this.onClick = this.onClick.bind(this);
+	<script defer>
+		AFRAME.registerComponent('play-on-click', {
+			init: function () {
+				this.onClick = this.onClick.bind(this);
 
-        this.el.addEventListener('targetFound', event => {
-          console.log("target found");
-          var videoEl = this.el.getAttribute('material').src;
-          if (!videoEl) { return; }
-          this.el.object3D.visible = true;
-          videoEl.play();
+				this.el.addEventListener('targetFound', event => {
+					console.log("target found");
+					var videoEl = this.el.getAttribute('material').src;
+					if (!videoEl) { return; }
+					this.el.object3D.visible = true;
+					videoEl.play();
 
-        });
-        this.el.addEventListener('targetLost', event => {
-          console.log("target found");
-          var videoEl = this.el.getAttribute('material').src;
-          if (!videoEl) { return; }
-          this.el.object3D.visible = false;
-          videoEl.pause();
-        });
-      },
-      play: function () {
-        window.addEventListener('click', this.onClick);
-      },
-      pause: function () {
-        window.removeEventListener('click', this.onClick);
-      },
-      onClick: function (evt) {
-        var videoEl = this.el.getAttribute('material').src;
-        if (!videoEl) { return; }
-        this.el.object3D.visible = true;
-        videoEl.play();
-      }
-    });
-  </script>
+				});
+				this.el.addEventListener('targetLost', event => {
+					console.log("target found");
+					var videoEl = this.el.getAttribute('material').src;
+					if (!videoEl) { return; }
+					this.el.object3D.visible = false;
+					videoEl.pause();
+				});
+			},
+			play: function () {
+				window.addEventListener('click', this.onClick);
+			},
+			pause: function () {
+				window.removeEventListener('click', this.onClick);
+			},
+			onClick: function (evt) {
+				var videoEl = this.el.getAttribute('material').src;
+				if (!videoEl) { return; }
+				this.el.object3D.visible = true;
+				videoEl.play();
+			}
+		});
+	</script>
 
 </head>
 
 <body style="margin : 0px; overflow: hidden;">
-  <!--point to your *.mind file created on the website-->
-  <a-scene mindar-image="imageTargetSrc:assets/targets.mind;" color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
+	<!--point to your *.mind file created on the website-->
+	<a-scene mindar-image="imageTargetSrc:assets/targets.mind;" color-space="sRGB"
+		renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+		device-orientation-permission-ui="enabled: false">
 
-    <a-assets>
-      <!--point to you *mp4 file : h264, AAC etc-->
-      <video src="./video/Paroleinlibertanoaudio.mp4" muted="true" loop="true" controls="false" playsinline webkit-playsinline
-        type='video/mp4' id="vid"></video>
-    </a-assets>
+		<a-assets>
+			<!--point to you *mp4 file : h264, AAC etc-->
+			<video src="./video/Paroleinliberta.mp4" muted="true" loop="true" controls="false" playsinline
+				webkit-playsinline type='video/mp4' id="vid"></video>
 
-    <a-entity mindar-image-target="targetIndex: 0" play-on-click
-      material="shader: chromakey; src: #vid; chroma: false; color: 0. 0. 1."
-      geometry="primitive: plane; width:  1; height:  1.6" position="0  0  0" rotation="270  0  0" side="double">
-    </a-entity>
+			<audio id="sound1" src="audio/Audio.mp3" preload="auto"></audio>
 
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+		</a-assets>
+		<a-entity mindar-image-target="targetIndex: 0">
+			<a-entity play-on-click material="shader: chromakey; src: #vid; chroma: false; color: 0. 0. 1."
+				geometry="primitive: plane; width:  1; height:  1.6" position="0  0  0" rotation="270  0  0"
+				side="double">
+			</a-entity>
+			<a-sound play-on-click src="#sound1" autoplay="true"></a-sound>
+		</a-entity>
 
-  </a-scene>
+		<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+	</a-scene>
 
 </body>
 
