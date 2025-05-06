@@ -93,10 +93,7 @@
 
 					var videoEl = this.el.getAttribute('material').src;
 					if (!videoEl) {
-						let audioEl = this.el.getAttribute('sound').src
-						if (!audioEl) {
-							audioEl.play();
-						}
+
 						this.el.object3D.visible = true;
 						videoEl.play();
 					}
@@ -109,10 +106,7 @@
 
 					var videoEl = this.el.getAttribute('material').src;
 					if (!videoEl) {
-						let audioEl = this.el.getAttribute('sound').src
-						if (!audioEl) {
-							audioEl.pause();
-						}
+
 						this.el.object3D.visible = true;
 						videoEl.pause();
 						videoEl.currentTime = 0
@@ -129,11 +123,11 @@
 			onClick: function (evt) {
 
 				var videoEl = this.el.getAttribute('material').src;
+
+
 				if (!videoEl) {
-					let audioEl = this.el.getAttribute('sound').src
-					if (!audioEl) {
-						audioEl.play();
-					}
+
+
 					this.el.object3D.visible = true;
 					videoEl.play();
 				}
@@ -155,16 +149,15 @@
 
 		<a-assets>
 			<!--point to you *mp4 file : h264, AAC etc-->
-			<video src="./video/Paroleinliberta.mp4" muted="true" loop="true" controls="false" playsinline
+			<video src="./video/Paroleinliberta.mp4" muted="false" loop="true" controls="false" playsinline
 				webkit-playsinline type='video/mp4' id="vid"></video>
 
-			<audio id="sound1" src="audio/Audio.mp3" preload="auto" autoplay="false"></audio>
 
 		</a-assets>
 		<a-entity mindar-image-target="targetIndex: 0">
 			<a-entity play-on-click material="shader: chromakey; src: #vid; chroma: false; color: 0. 0. 1."
-				geometry="primitive: plane; width:  1; height:  1.6" sound="src: #sound1; autoplay: false"
-				position="0  0  0" rotation="270  0  0" side="double">
+				geometry="primitive: plane; width:  1; height:  1.6" position="0  0  0" rotation="270  0  0"
+				side="double">
 			</a-entity>
 
 		</a-entity>
