@@ -95,7 +95,7 @@
 					if (!videoEl) {
 						let audioEl = this.el.getAttribute('sound').src
 						if (!audioEl) {
-							audioEl.playSound();
+							audioEl.play();
 						}
 						this.el.object3D.visible = true;
 						videoEl.play();
@@ -111,10 +111,11 @@
 					if (!videoEl) {
 						let audioEl = this.el.getAttribute('sound').src
 						if (!audioEl) {
-							audioEl.stopSound();
+							audioEl.pause();
 						}
 						this.el.object3D.visible = true;
-						videoEl.play();
+						videoEl.pause();
+						videoEl.currentTime = 0
 					}
 
 				});
@@ -131,7 +132,7 @@
 				if (!videoEl) {
 					let audioEl = this.el.getAttribute('sound').src
 					if (!audioEl) {
-						audioEl.playSound();
+						audioEl.play();
 					}
 					this.el.object3D.visible = true;
 					videoEl.play();
