@@ -93,15 +93,12 @@
 
 					var videoEl = this.el.getAttribute('material').src;
 					if (!videoEl) {
+						let audioEl = this.el.getAttribute('sound').src
+						if (!audioEl) {
+							audioEl.playSound();
+						}
 						this.el.object3D.visible = true;
 						videoEl.play();
-					}
-
-					let audioEl = this.el.getAttribute('sound').src
-					console.log(audioEl)
-					if (!audioEl) {
-						this.el.object3D.visible = true;
-						audioEl.playSound();
 					}
 
 
@@ -112,16 +109,12 @@
 
 					var videoEl = this.el.getAttribute('material').src;
 					if (!videoEl) {
-						this.el.object3D.visible = false;
-						videoEl.pause();
-					}
-
-
-					let audioEl = this.el.getAttribute('sound').src
-					console.log(audioEl)
-					if (!audioEl) {
+						let audioEl = this.el.getAttribute('sound').src
+						if (!audioEl) {
+							audioEl.stopSound();
+						}
 						this.el.object3D.visible = true;
-						audioEl.stopSound();
+						videoEl.play();
 					}
 
 				});
@@ -136,17 +129,15 @@
 
 				var videoEl = this.el.getAttribute('material').src;
 				if (!videoEl) {
+					let audioEl = this.el.getAttribute('sound').src
+					if (!audioEl) {
+						audioEl.playSound();
+					}
 					this.el.object3D.visible = true;
 					videoEl.play();
 				}
 
 
-				let audioEl = this.el.getAttribute('sound').src
-				console.log(audioEl)
-				if (!audioEl) {
-					this.el.object3D.visible = true;
-					audioEl.playSound();
-				}
 
 
 			}
